@@ -292,7 +292,7 @@ int output(const char* fileName, StrHash_t* outHashes, size_t count)
 			str[cur->len] = 0;
 			fclose(inFile);
 
-			fprintf(outFile, "%s - %d:\t%s", cur->file, cur->line + 1, str);
+			fprintf(outFile, "%s %d %s", cur->file, cur->line + 1, str);
 		}
 		cur++;
 	}
