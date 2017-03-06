@@ -215,6 +215,8 @@ StrHash_t* difference(StrHash_t* hashes1, size_t count1, StrHash_t* hashes2, siz
 
 	*count = 0;
 	outHashes = (StrHash_t*)malloc((count1 + count2)*sizeof(StrHash_t));
+	if (!outHashes)
+		return NULL;
 
 	cur1 = hashes1; end1 = hashes1 + count1;
 	cur2 = hashes2; end2 = hashes2 + count2;
@@ -327,6 +329,8 @@ int diff(const char* file1, const char* file2, const char* outFile)
 	duplicates(hashes2, count2);
 
 	outHashes = difference(hashes1, count1, hashes2, count2, &count);
+	if (!outHashes)
+		return -1;
 
 	output(outFile, outHashes, count);
 
