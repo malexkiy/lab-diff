@@ -129,14 +129,8 @@ __inline long read_line(char* str, unsigned long maxCount, FILE* file, long offs
 	fseek(file, offset, SEEK_SET);
 	*str = 0;
 
-	while ((count <= maxCount) && (str[count - 1] != EOF) && (str[count - 1] != 0xA))
-	{
-		str[count++] = fgetc(file);
-	}
-
-	if (str[count - 1] == EOF)
-		str[--count] = 0;
-
+	fgets(str, maxCount, file);
+	while (str[count++] != 0xA);
 	str[count] = 0;
 
 	return count;
