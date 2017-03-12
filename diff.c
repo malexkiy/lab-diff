@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define IS_DUPLICATE 0x80000000
 #define MAX_LENGTH 0x400
 
 
@@ -173,36 +172,6 @@ StrHash_t* gen_strhash(const char* fileName, size_t *count)
 }
 
 
-void duplicates(StrHash_t *arr, size_t count)
-{
-	FILE* file;
-	StrHash_t *cur, *end;
-
-	file = fopen(arr->file, "rb");
-
-	if (!file)
-		return;
-
-	cur = arr + 1; end = arr + count;
-
-	do {
-		if ((cur - 1)->hash == cur->hash)
-		{
-			if (str_cmp(cur - 1, cur, file) == 0)
-			{
-				if ((cur - 1)->line < cur->line)
-					cur->line |= IS_DUPLICATE;
-				else
-					(cur - 1)->line |= IS_DUPLICATE;
-			}
-		}
-		cur++;
-	} while (cur != end);
-
-	fclose(file);
-}
-
-
 StrHash_t* difference(StrHash_t* hashes1, size_t count1, StrHash_t* hashes2, size_t count2, size_t* count)
 {
 	StrHash_t *outHashes, *cur1, *cur2, *end1, *end2, *cur;
@@ -318,9 +287,6 @@ int diff(const char* file1, const char* file2, const char* outFile)
 
 	merge_sort(hashes1, count1, &hash_cmp);
 	merge_sort(hashes2, count2, &hash_cmp);
-
-	duplicates(hashes1, count1);
-	duplicates(hashes2, count2);
 
 	outHashes = difference(hashes1, count1, hashes2, count2, &count);
 	if (!outHashes)
