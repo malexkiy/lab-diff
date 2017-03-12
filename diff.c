@@ -290,7 +290,11 @@ int diff(const char* file1, const char* file2, const char* outFile)
 
 	outHashes = difference(hashes1, count1, hashes2, count2, &count);
 	if (!outHashes)
+	{
+		free(hashes1);
+		free(hashes2);
 		return -1;
+	}
 
 	output(outFile, outHashes, count);
 
